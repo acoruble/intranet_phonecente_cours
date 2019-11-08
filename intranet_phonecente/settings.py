@@ -63,7 +63,14 @@ ROOT_URLCONF = 'intranet_phonecente.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'intranet_phonecenter', 'templates'),
+            # os.path.join(BASE_DIR, 'users', 'templates'), # No needed thanks to APP_DIRS
+            # os.path.join(BASE_DIR, 'customer', 'templates'), # No needed thanks to APP_DIRS
+            # os.path.join(BASE_DIR, 'credits', 'templates'), # No needed thanks to APP_DIRS
+            # os.path.join(BASE_DIR, 'calls', 'templates'), # No needed thanks to APP_DIRS
+            # os.path.join(BASE_DIR, 'supports', 'templates'), # No needed thanks to APP_DIRS
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
