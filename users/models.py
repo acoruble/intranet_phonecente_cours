@@ -23,12 +23,20 @@ class UserProfile(AbstractUser, BaseModel):
         null=True,
     )
 
-    display_name = models.TextField(
+    display_name = models.CharField(
         verbose_name="Nom d'affichage",
+        max_length=100,
         default=None,
         blank=True,
         null=True,
     )
+
+    newsletter_agreement = models.BooleanField(
+        verbose_name = "Recevoir des newsletter",
+        help_text = "Une par semaine maximum",
+        default=False,
+        db_index=True,
+        )
 
     def __str__(self):
         if self.display_name :
