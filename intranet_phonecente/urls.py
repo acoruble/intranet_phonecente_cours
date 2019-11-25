@@ -31,6 +31,7 @@ urlpatterns = [
     path(r'calls/', include('calls.urls', namespace='calls')),
     path(r'supports/', include('supports.urls', namespace='supports')),
     path('admin/', admin.site.urls),
+    path('', users.views.login_view),
 ]
 
 if settings.DEBUG:

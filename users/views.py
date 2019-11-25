@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 from .forms import RegisterForm, AccountSettingsForm
 from .models import UserProfile
@@ -104,5 +104,16 @@ def account_settings(request):
             'url_form': reverse("users:register"),
             'title': "Inscription",
             'form':form,
+        }
+    )
+
+@user_passes_test(lambda u: u.is_superuser)
+def role_attribution(request):
+    users = UserProfile.objects.filter(teammember__isnull=True, customer__isnull=True).order_by("-id")
+    return render(
+        request,
+        'users/role_attribution.html',
+        {
+            'users': users,
         }
     )
