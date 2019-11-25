@@ -1,14 +1,10 @@
 # coding: UTF-8
 from django.urls import path
 
-app_name = 'users'
-urlpatterns = [
-
-]
-
-# Import du module views de l'application users
 from users import views
 
+app_name = 'users'
 urlpatterns = [
     path('hello/', views.hello, name="hello"),
+    path('register/', views.register, name="register"),
 ]

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'crispy_forms',
 
     'users',
     'customer',
@@ -140,3 +141,5 @@ INTERNAL_IPS = [
 ]
 
 AUTH_USER_MODEL = "users.UserProfile"
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
