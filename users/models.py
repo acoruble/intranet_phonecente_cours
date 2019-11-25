@@ -53,7 +53,8 @@ class TeamMember(BaseModel):
         default=1,
         )
 
-
+    def __str__(self):
+        return "TeamMember : %s" % str(self.teammember)
 
 class Customer(BaseModel):
 
@@ -66,3 +67,6 @@ class Customer(BaseModel):
     credits = models.IntegerField(
         default=0,
         )
+
+    def __str__(self):
+        return "Customer : %s" % str(self.customer)
