@@ -32,12 +32,7 @@
                         ❌
                     {% endif %}
                 </td>
-                {% if request.user.user_type == 1 %}
-                <td>
-                    <a class="btn btn-primary" href="{% url 'calls:call_edit' call.id %}">Modifier</a>
-                </td>
-                {% endif %}
-                {% if request.user.user_type == 2 and not call.solved %}
+                {% if request.user.user_type == 1 or request.user.user_type == 2 and not call.solved %}
                 <td>
                     <a class="btn btn-primary" href="{% url 'calls:call_edit' call.id %}">Modifier</a>
                 </td>

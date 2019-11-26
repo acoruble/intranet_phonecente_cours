@@ -46,9 +46,7 @@ def call_list(request):
         }
     )
 
-# @user_passes_test(is_teammember)
 def call_edit(request, call_id=None):
-    print(request.user.customer)
     current_instance = None
     if call_id:
         if request.user.user_type == 1:
@@ -77,7 +75,7 @@ def call_edit(request, call_id=None):
 
 @user_passes_test(is_customer)
 def call_list_customer(request):
-    calls = Call.objects.filter()
+    calls = Call.objects.filter(customer = "test_customer_test")
     return render(
         request,
         'calls/call_list.html',
