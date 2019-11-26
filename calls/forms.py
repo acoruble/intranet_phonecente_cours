@@ -13,4 +13,4 @@ class NewCallForm(ModelFormWithSubmit):
 
     class Meta:
         model = Call
-        fields = ('title', 'customer', 'tags', 'content', 'solved', )
+        fields = ('title', 'call_category', 'customer', 'tags', 'content', 'solved', ) 

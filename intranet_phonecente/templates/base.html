@@ -27,7 +27,7 @@
 
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
+            <a class="nav-link" href="{% url 'admin:index' %}">Admin Django</a>
           </li>
         </ul>
 
@@ -37,13 +37,7 @@
               <a class="nav-link" href="{% url 'users:myaccount' %}">{{ user.get_username }}</a>
             </li>
           </ul>
-          {% if user.is_authenticated %}
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="{% url 'calls:new_call' %}">Nouvel appel</a>
-              </li>
-            </ul>
-          {% endif %}
+
           {% if request.user.is_superuser %}
             <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
@@ -51,6 +45,23 @@
               </li>
             </ul>
           {% endif %}
+
+          {% if request.user.user_type == 1 %}
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'calls:call_list' %}">Liste d'appels</a>
+            </li>
+          </ul>
+          {% endif %}
+
+          {% if request.user.user_type == 2 %}
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'calls:call_list_customer' %}">Liste d'appels</a>
+            </li>
+          </ul>
+          {% endif %}
+
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
               <a class="nav-link" href="{% url 'users:logout' %}">Déconnexion</a>

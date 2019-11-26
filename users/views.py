@@ -1,10 +1,11 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 from .forms import RegisterForm, AccountSettingsForm
+
 from .models import UserProfile
 
 # View
@@ -21,6 +22,7 @@ def hello(request):
     )
 
 def register(request):
+    print(reverse("users:hello"))
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse("users:myaccount"))
     if request.method == 'POST':
@@ -54,6 +56,7 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("users:login"))
 
+
 def login_view(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse("users:myaccount"))
@@ -84,10 +87,18 @@ def login_view(request):
 
 @login_required
 def myaccount(request):
+    print(request.user.user_type)
+
+    if hasattr(request.user, "customer"):
+        print(request.user.customer)
+
+    if hasattr(request.user, "teammember"):
+        print(request.user.teammember)
+
     return render(
         request,
         'users/myaccount.html',
-    )
+        )
 
 @login_required
 def account_settings(request):
@@ -101,7 +112,6 @@ def account_settings(request):
         request,
         'utils/form.html',
         {
-            'url_form': reverse("users:register"),
             'title': "Inscription",
             'form':form,
         }
@@ -109,6 +119,7 @@ def account_settings(request):
 
 @user_passes_test(lambda u: u.is_superuser)
 def role_attribution(request):
+    # users = UserProfile.objects.filter(user_type__isnull=True).order_by("-id")
     users = UserProfile.objects.filter(teammember__isnull=True, customer__isnull=True).order_by("-id")
     return render(
         request,
@@ -116,4 +127,8 @@ def role_attribution(request):
         {
             'users': users,
         }
-    )
+        )
+
+def get_username(request, user_id):
+    user = UserProfile.objects.get(pk=user_id)
+    return HttpResponse(user.username)

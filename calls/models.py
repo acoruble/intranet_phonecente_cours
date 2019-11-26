@@ -10,7 +10,7 @@ class CallCategory(BaseModel):
         )
     urgent_level = models.PositiveSmallIntegerField(
         verbose_name = "Niveau d'urgence",
-        help_text = "Entre 0 (bas niveau d'urgence) et 10 (urgence critique)",
+        help_text = "Entre 1 (bas niveau d'urgence) et 10 (urgence critique)",
         default=3,
         validators=[
             MaxValueValidator(10),
@@ -19,7 +19,7 @@ class CallCategory(BaseModel):
         )
 
     def __str__(self):
-        return "%s(%d)" % (self.name, self.urgent_level)
+        return "%s (%d)" % (self.name, self.urgent_level)
 
     class Meta:
         verbose_name = "Catégorie d'appel"
@@ -63,6 +63,16 @@ class Call(BaseModel):
         null=True,
         blank=True,
         default=None,
+        )
+
+    call_category = models.ForeignKey(
+        CallCategory,
+        on_delete=models.SET_NULL,
+        verbose_name = "Catégorie",
+        db_index=True,
+        null=True,
+        blank=True,
+        default=1,
         )
 
     tags = models.ManyToManyField(
