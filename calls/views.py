@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-from .forms import NewCallForm
+from .forms import NewCallForm, NewCallFormCustomer
 from .models import Call
 
 def is_teammember(user=None):
@@ -63,7 +63,10 @@ def call_edit(request, call_id=None):
                     form.instance.teammember = None
             form.save()
     else:
-        form = NewCallForm(instance = current_instance)
+        if request.user.user_type == 1:
+            form = NewCallForm(instance = current_instance)
+        elif request.user.user_type == 2:
+            form = NewCallFormCustomer(instance = current_instance)
     return render(
         request,
         'utils/form.html',
@@ -75,7 +78,7 @@ def call_edit(request, call_id=None):
 
 @user_passes_test(is_customer)
 def call_list_customer(request):
-    calls = Call.objects.filter(customer = "test_customer_test")
+    calls = Call.objects.filter(customer = request.user.customer)
     return render(
         request,
         'calls/call_list.html',
