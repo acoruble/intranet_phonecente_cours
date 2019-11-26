@@ -54,7 +54,10 @@ def call_edit(request, call_id=None):
         elif request.user.user_type == 2:
             current_instance = Call.objects.get(id = call_id)
     if request.method == 'POST':
-        form = NewCallForm(request.POST, instance = current_instance)
+        if request.user.user_type == 1:
+            form = NewCallForm(request.POST, instance = current_instance)
+        elif request.user.user_type == 2:
+            form = NewCallFormCustomer(request.POST, instance = current_instance)
         if form.is_valid():
             if not current_instance:
                 if request.user.user_type == 1:
